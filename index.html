@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=utf-8 />
+	<title>e-YAKA template
+	</title>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		crossorigin="anonymous">
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		
+		#mapid {
+			height: 100vh;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div id="mapid"></div>
+	</div>
+
+
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Le coup de téléphone à prospect</h4>
+				</div>
+				<div class="modal-body">
+					<div id="phoning" class="container-fluid">
+						<p> Some text </p>
+					</div> 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+
+	var yx = L.latLng;
+
+	var xy = function(x, y) {
+		if (L.Util.isArray(x)) {    // When doing xy([x, y]);
+			return yx(x[1], x[0]);
+		}
+		return yx(y, x);  // When doing xy(x, y);
+	};
+
+
+	var icon = L.icon({
+    iconUrl: 'icon.png',
+
+    iconSize:     [40, 40], // size of the icon
+    iconAnchor:   [20, 10], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+	});
+
+
+
+
+	var bounds = [[0,0], [1000,1000]];
+	var map = L.map('mapid',{
+		crs: L.CRS.Simple,
+		maxBounds:L.latLngBounds(xy(0,0),xy(1000,1000)),	
+		zoom:5
+		});
+
+	map.setView([51.505, -0.09], 1);
+	var image = L.imageOverlay('france.png', bounds).addTo(map);
+	map.fitBounds(bounds);
+
+	
+	var marker = L.marker(xy(500,500), {icon: icon});
+	marker.addTo(map);
+	var popup = marker.bindPopup('<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">Appeler prospect</button>');
+
+	function fun(){
+
+	}
+	</script>
+
+</body>
+
+</html>
