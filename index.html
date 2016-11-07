@@ -42,19 +42,23 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Le coup de téléphone à prospect</h4>
+					<h4 class="modal-title">Le coup de téléphone à prospect <img src="telephone.gif" /></h4>
 				</div>
 				<div class="modal-body">
-					<div id="phoning" class="container-fluid">
-						<p> Some text </p>
-					</div> 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<div class="container-fluid">
+						<div class="row">
+							<div id="dialog" class="col-sm-6"><p>Partie Dialog</p></div>
+							<div id="info" class="col-sm-6"><p>Partie Info Aquis</p></div>
+					</div>
 				</div>
 			</div>
-
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" onclick="fun()">Appeleer</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
 		</div>
+
+	</div>
 	</div>
 
 
@@ -97,9 +101,57 @@
 	marker.addTo(map);
 	var popup = marker.bindPopup('<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">Appeler prospect</button>');
 
-	function fun(){
+	var marker2 = L.marker(xy(200,700), {icon: icon});
+	marker2.addTo(map);
+	var popup2 = marker2.bindPopup('<button type="button" class="btn btn-warning btn-xs disabled">Prospect perdu</button>');
 
+	var dialog_phrases = [
+		"Blah blah?",
+		"Blah blah, blah blah foobar.",
+		"Byah, blah vlah?",
+		"Blegh nieght blah.",
+		"Yieagh, blough blegh.",
+		"Ploum blah bleh.",
+		"Byah keh pleh",
+		"Blagh gloogh.",
+		"Blah blah blap.",
+		"Blah plat, blahahahahahahah.",
+		"Blahahahahahahah"
+		];
+
+	var info_phrases = [
+		"Companie: Orange",
+		"Interessé par: Post-it",
+		"Statut: Client potentiel"
+	]
+
+	var dialog = $("#dialog");
+	var info = $("#info");
+	var i = 0;
+	var j = 0;
+	var ab;
+
+	function display(){
+		if(i%2==0){
+			dialog.append("<p class='text-info'>"+dialog_phrases[i]+"</p>");
+		}
+		else{
+			dialog.append("<p class='text-success'>"+dialog_phrases[i]+"</p>");
+		}
+		if(i%4==0){
+			info.append("<p>"+info_phrases[j]+"</p>");
+			j++;
+		}
+		i++;
+		if(i>=9){
+			clearInterval(ab);
+		}
 	}
+
+	function fun(){
+		ab=setInterval(function(){display()},1000);
+	}
+
 	</script>
 
 </body>
